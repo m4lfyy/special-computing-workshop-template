@@ -10,11 +10,14 @@ import java.util.ListIterator;
  */
 public class LinkedList implements java.util.List<Object> {
 
-
+  private int size = 0;
   private Node head = null;
 
-  @SuppressWarnings("checkstyle:MissingJavadocType")
+  /**
+   * Узлы двусвязного списка.
+   */
   public static class Node {
+
 
     private final Object data;
     private Node right;
@@ -30,13 +33,7 @@ public class LinkedList implements java.util.List<Object> {
 
   @Override
   public int size() {
-    int it = 0;
-    Node element = head;
-    while (element != null) {
-      it++;
-      element = element.right;
-    }
-    return it;
+    return size;
   }
 
   @Override
@@ -46,16 +43,16 @@ public class LinkedList implements java.util.List<Object> {
 
   @Override
   public boolean contains(Object o) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод contains не переопределён");
   }
 
   @Override
   public Iterator<Object> iterator() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод iterator не переопределён");
   }
 
   @Override
-  public Object[] toArray() throws UnsupportedOperationException {
+  public Object[] toArray() {
     Object[] result = new Object[this.size()];
     Node current = head;
     for (int i = 0; i < this.size(); i++) {
@@ -67,7 +64,7 @@ public class LinkedList implements java.util.List<Object> {
 
   @Override
   public <T> T[] toArray(T[] a) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод toArray(T[]) не переопределён");
   }
 
   @Override
@@ -75,14 +72,13 @@ public class LinkedList implements java.util.List<Object> {
     Node current = head;
     if (head == null) {
       head = new Node(o, null, null);
-
-
     } else {
       while (current.right != null) {
         current = current.right;
       }
       current.right = new Node(o, current, null);
     }
+    size++;
     return true;
   }
 
@@ -110,6 +106,7 @@ public class LinkedList implements java.util.List<Object> {
       newNode.left.right = newNode;
       current.left = newNode;
     }
+    size++;
   }
 
   @Override
@@ -129,8 +126,10 @@ public class LinkedList implements java.util.List<Object> {
       if (it.right != null) {
         it.right.left = it.left;
       }
+      size--;
+      return true;
     }
-    return true;
+    return false;
   }
 
   @Override
@@ -152,37 +151,38 @@ public class LinkedList implements java.util.List<Object> {
     if (current.right != null) {
       current.right.left = current.left;
     }
+    size--;
     return current.data;
   }
 
   @Override
   public boolean containsAll(Collection<?> c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод containsAll не переопределён");
   }
 
   @Override
   public boolean addAll(Collection<?> c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод addAll не переопределён");
   }
 
   @Override
   public boolean addAll(int index, Collection<?> c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод addAll не переопределён");
   }
 
   @Override
   public boolean removeAll(Collection<?> c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод removeAll не переопределён");
   }
 
   @Override
   public boolean retainAll(Collection<?> c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод retainAll не переопределён");
   }
 
   @Override
-  public void clear() {
-    head = null;
+  public void clear() throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Метод clear не переопределён");
   }
 
   @Override
@@ -201,7 +201,7 @@ public class LinkedList implements java.util.List<Object> {
 
   @Override
   public Object set(int index, Object element) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод set не переопределён");
   }
 
   @Override
@@ -221,21 +221,21 @@ public class LinkedList implements java.util.List<Object> {
 
   @Override
   public int lastIndexOf(Object o) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод lastIndexOf не переопределён");
   }
 
   @Override
   public ListIterator<Object> listIterator() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод listIterator не переопределён");
   }
 
   @Override
   public ListIterator<Object> listIterator(int index) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод listIterator не переопределён");
   }
 
   @Override
   public List<Object> subList(int fromIndex, int toIndex) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод subList не переопределён");
   }
 }

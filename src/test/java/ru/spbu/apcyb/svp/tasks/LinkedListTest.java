@@ -2,35 +2,22 @@ package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
 class LinkedListTest {
 
   @Test
-  @DisplayName("addTest1")
-  void addTest1() {
+  void addObjectTest() {
     LinkedList list = new LinkedList();
     list.add(5);
     Assertions.assertArrayEquals(new Integer[]{5}, list.toArray());
   }
 
   @Test
-  @DisplayName("addTest2")
-  void addTest2() {
-    LinkedList list = new LinkedList();
-    list.add(0, 5);
-    list.add(0, "string");
-    Assertions.assertArrayEquals(new Object[]{"string", 5}, list.toArray());
-  }
-
-  @Test
-  @DisplayName("addTest3")
-  void addTest3() {
+  void addSeveralObjectsTest() {
     LinkedList list = new LinkedList();
     list.add(0, 5);
     list.add(0, "string");
@@ -39,7 +26,6 @@ class LinkedListTest {
   }
 
   @Test
-  @DisplayName("addExceptionTest")
   void addExceptionTest() {
     LinkedList list = new LinkedList();
     list.add("string");
@@ -49,38 +35,35 @@ class LinkedListTest {
 
 
   @Test
-  @DisplayName("sizeTest1")
-  void sizeTest1() {
+  void sizeEmptyTest() {
     LinkedList list = new LinkedList();
     Assertions.assertEquals(0, list.size());
   }
 
   @Test
-  @DisplayName("sizeTest2")
-  void sizeTest2() {
+  void multipleSizeTest() {
     LinkedList list = new LinkedList();
     list.add("string");
+    list.add(0, "temp");
+    list.remove("string");
     Assertions.assertEquals(1, list.size());
   }
 
   @Test
-  @DisplayName("isEmptyTest1")
-  void isEmptyTest1() {
+  void emptyListTest() {
     LinkedList list = new LinkedList();
     Assertions.assertTrue(list.isEmpty());
   }
 
   @Test
-  @DisplayName("isEmptyTest2")
-  void isEmptyTest2() {
+  void notEmptyListTest() {
     LinkedList list = new LinkedList();
     list.add(new int[]{1});
     Assertions.assertFalse(list.isEmpty());
   }
 
   @Test
-  @DisplayName("removeTest1")
-  void removeTest1() {
+  void removeObjectTest() {
     LinkedList list = new LinkedList();
     list.add(10);
     list.add(5);
@@ -90,18 +73,7 @@ class LinkedListTest {
   }
 
   @Test
-  @DisplayName("removeTest2")
-  void removeTest2() {
-    LinkedList list = new LinkedList();
-    list.add("string");
-    list.remove("string");
-    Assertions.assertTrue(list.isEmpty());
-  }
-
-
-  @Test
-  @DisplayName("removeTest3")
-  void removeTest3() {
+  void removeIndexTest() {
     LinkedList list = new LinkedList();
     list.add(5);
     Object element = list.remove(0);
@@ -114,40 +86,30 @@ class LinkedListTest {
 
 
   @Test
-  @DisplayName("removeTest4")
-  void removeTest4() {
+  void removeSeveralTest() {
     LinkedList list = new LinkedList();
     list.add(5);
     list.add("string");
     list.remove(0);
     Assertions.assertEquals("string", list.get(0));
-
   }
 
   @Test
-  @DisplayName("removeTest5")
-  void removeTest5() {
-    LinkedList list = new LinkedList();
-    list.add(1);
-    list.add(2);
-    list.add(3);
-    list.remove(2);
-    Assertions.assertArrayEquals(new Object[]{1, 2}, list.toArray());
-
-  }
-
-  @Test
-  @DisplayName("removeExceptionTest")
-  void removeExceptionTest() {
+  void removeFromEmptyListTest() {
     LinkedList list = new LinkedList();
     assertThrows(IndexOutOfBoundsException.class,
         () -> list.remove(0));
   }
 
+  @Test
+  void removeFalseTest() {
+    LinkedList list = new LinkedList();
+    list.add("string");
+    Assertions.assertFalse(list.remove("temp"));
+  }
 
   @Test
-  @DisplayName("getTest1")
-  void getTest1() {
+  void getTest() {
     LinkedList list = new LinkedList();
     list.add(5);
     list.add("string");
@@ -156,7 +118,6 @@ class LinkedListTest {
   }
 
   @Test
-  @DisplayName("getExceptionTest")
   void getExceptionTest() {
     LinkedList list = new LinkedList();
     list.add(5);
@@ -164,30 +125,59 @@ class LinkedListTest {
         () -> list.get(2));
   }
 
-
   @Test
-  @DisplayName("indexOfTest1")
-  void indexOfTest1() {
-
+  void indexOfTrueTest() {
     LinkedList list = new LinkedList();
     list.add("string");
     Assertions.assertEquals(0, list.indexOf("string"));
   }
 
   @Test
-  @DisplayName("indexOfTest2")
-  void indexOfTest2() {
+  void indexOfFalseTest2() {
     LinkedList list = new LinkedList();
     list.add("string");
     Assertions.assertEquals(-1, list.indexOf(10));
   }
 
   @Test
-  @DisplayName("clearTest1")
-  void clearTest1() {
+  void clearExceptionTest() {
     LinkedList list = new LinkedList();
-    list.add(new Integer[]{3, 6, 5});
-    list.clear();
-    assertTrue(list.isEmpty());
+    assertThrows(UnsupportedOperationException.class, list::clear);
+  }
+
+  @Test
+  void containsExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, () -> list.contains(0));
+  }
+
+  @Test
+  void iteratorExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, list::iterator);
+  }
+
+  @Test
+  void setExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, () -> list.set(0, 5));
+  }
+
+  @Test
+  void lastIndexOfExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, () -> list.lastIndexOf(0));
+  }
+
+  @Test
+  void listIteratorExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, list::listIterator);
+  }
+
+  @Test
+  void sublistExceptionTest() {
+    LinkedList list = new LinkedList();
+    assertThrows(UnsupportedOperationException.class, () -> list.subList(0, 2));
   }
 }

@@ -8,38 +8,34 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class OrdinaryQueueTest {
 
 
   @Test
-  @DisplayName("addTest1")
-  void addTest1() {
+  void addObjectTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("string");
     Assertions.assertEquals("string", ordinaryQueue.peek());
   }
 
   @Test
-  @DisplayName("sizeTest1")
-  void sizeTest1() {
+  void sizeEmptyTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     Assertions.assertEquals(0, ordinaryQueue.size());
   }
 
   @Test
-  @DisplayName("sizeTest2")
-  void sizeTest2() {
+  void sizeSeveralTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add(5);
-    Assertions.assertEquals(1, ordinaryQueue.size());
+    ordinaryQueue.remove();
+    Assertions.assertEquals(0, ordinaryQueue.size());
   }
 
   @Test
-  @DisplayName("pollTest1")
-  void pollTest1() {
+  void pollTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("string");
     ordinaryQueue.add(5);
@@ -51,15 +47,13 @@ class OrdinaryQueueTest {
   }
 
   @Test
-  @DisplayName("pollTest2")
-  void pollTest2() {
+  void pollNullTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     Assertions.assertNull(ordinaryQueue.poll());
   }
 
   @Test
-  @DisplayName("elementTest1")
-  void elementTest1() {
+  void elementTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("string");
     ordinaryQueue.add(5);
@@ -71,15 +65,13 @@ class OrdinaryQueueTest {
   }
 
   @Test
-  @DisplayName("elementExceptionTest")
   void elementExceptionTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     Assertions.assertThrows(NoSuchElementException.class, ordinaryQueue::element);
   }
 
   @Test
-  @DisplayName("removeTest1")
-  void removeTest1() {
+  void removeTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("string");
     ordinaryQueue.add(5);
@@ -91,15 +83,13 @@ class OrdinaryQueueTest {
   }
 
   @Test
-  @DisplayName("removeExceptionTest")
   void removeExceptionTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     Assertions.assertThrows(NoSuchElementException.class, ordinaryQueue::remove);
   }
 
   @Test
-  @DisplayName("removeTest2")
-  void removeTest2() {
+  void removeSeveralTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("a");
     ordinaryQueue.add("b");
@@ -108,8 +98,7 @@ class OrdinaryQueueTest {
   }
 
   @Test
-  @DisplayName("peekTest1")
-  void peekTest1() {
+  void peekTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add("string");
     ordinaryQueue.add(5);
@@ -121,33 +110,45 @@ class OrdinaryQueueTest {
   }
 
   @Test
-  @DisplayName("peekTest2")
-  void peekTest2() {
+  void peekNullTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     Assertions.assertNull(ordinaryQueue.peek());
   }
 
   @Test
-  @DisplayName("isEmptyTest1")
-  void isEmptyTest1() {
+  void isEmptyTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     assertTrue(ordinaryQueue.isEmpty());
   }
 
   @Test
-  @DisplayName("isEmptyTest2")
-  void isEmptyTest2() {
+  void isEmptyFalseTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
     ordinaryQueue.add(5);
     assertFalse(ordinaryQueue.isEmpty());
   }
 
   @Test
-  @DisplayName("clearTest1")
-  void clearTest1() {
+  void clearTest() {
     OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
-    ordinaryQueue.add(new Integer[]{3, 6, 5});
-    ordinaryQueue.clear();
-    assertTrue(ordinaryQueue.isEmpty());
+    Assertions.assertThrows(UnsupportedOperationException.class, ordinaryQueue::clear);
+  }
+
+  @Test
+  void offerTest() {
+    OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
+    Assertions.assertThrows(UnsupportedOperationException.class, () -> ordinaryQueue.offer(5));
+  }
+
+  @Test
+  void iteratorTest() {
+    OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
+    Assertions.assertThrows(UnsupportedOperationException.class, ordinaryQueue::iterator);
+  }
+
+  @Test
+  void containsTest() {
+    OrdinaryQueue ordinaryQueue = new OrdinaryQueue();
+    Assertions.assertThrows(UnsupportedOperationException.class, () -> ordinaryQueue.contains(0));
   }
 }

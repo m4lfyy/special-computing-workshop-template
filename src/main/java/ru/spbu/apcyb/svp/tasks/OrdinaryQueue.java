@@ -31,22 +31,22 @@ public class OrdinaryQueue implements java.util.Queue<Object> {
 
   @Override
   public <T> T[] toArray(T[] a) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод toArray(T[]) не переопределён");
   }
 
   @Override
   public boolean offer(Object o) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод offer не переопределён");
   }
 
   @Override
   public boolean contains(Object o) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод contains не переопределён");
   }
 
   @Override
   public Iterator<Object> iterator() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод iterator не переопределён");
   }
 
   @Override
@@ -96,26 +96,26 @@ public class OrdinaryQueue implements java.util.Queue<Object> {
 
   @Override
   public boolean addAll(Collection c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод addAll не переопределён");
   }
 
   @Override
-  public void clear()  {
-    list.clear();
+  public void clear()throws UnsupportedOperationException {
+    throw new UnsupportedOperationException("Метод clear не переопределён");
   }
 
   @Override
   public boolean retainAll(Collection c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод retainAll не переопределён");
   }
 
   @Override
   public boolean removeAll(Collection c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод removeAll не переопределён");
   }
 
   @Override
   public boolean containsAll(Collection c) throws UnsupportedOperationException {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Метод containsAll не переопределён");
   }
 }
