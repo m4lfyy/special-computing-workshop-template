@@ -33,7 +33,7 @@ class Task3Test {
 
   @Test
   void getListFiles() throws IOException {
-    String filepath = "/Users/pavelpancuk/special-computing-workshop-template";
+    String filepath = "src/test/resources/";
     String[] args = {filepath, "result.txt"};
     Task3.main(args);
     boolean equals = true;
