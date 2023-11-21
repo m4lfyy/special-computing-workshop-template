@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,35 +24,56 @@ public class Task5 {
     }
   }
 
-  public static void main(String[] args) throws IOException {
-    countWords("datafile.txt", "count.txt");
+  public static void main(String[] args) {
+    if (args.length != 2) {
+      throw new ArrayIndexOutOfBoundsException("Requires 2 arguments!");
+    }
+    String dataFile = args[0];
+    String answerFile = args[1];
+    try {
+      List<String> lines = readFile(dataFile);
+      Map<String, Long> wordCount = processLines(lines);
+      writeFile(answerFile, wordCount);
+    } catch (IOException e) {
+      throw new MyException("IOException occurred");
+    }
   }
 
-  public static void countWords(String dataFile, String answerFile) throws IOException {
-    try (Stream<String> reader = Files.lines(Paths.get(dataFile)); BufferedWriter toAnswerFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((answerFile))))) {
-      reader.flatMap(line -> Arrays.stream(line.trim().split(" "))).map(String::toLowerCase).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().forEach(word -> {
-        try {
-          toAnswerFile.write(word + "\n");
-        } catch (IOException e) {
-          throw new MyException("Error occurred working with " + answerFile);
-        }
-        String[] wordAndItsCount = String.valueOf(word).split("=");
-        String currentWord = wordAndItsCount[0];
-        Integer currentWordNumber = Integer.parseInt(wordAndItsCount[1]);
+  public static List<String> readFile(String dataFile) throws IOException {
+    try (Stream<String> reader = Files.lines(Paths.get(dataFile))) {
+      return reader.toList();
+    } catch (IOException e) {
+      throw new FileNotFoundException("Error occurred reading file: " + dataFile);
+    }
+  }
+
+  public static Map<String, Long> processLines(List<String> lines) {
+    return lines.stream()
+        .flatMap(line -> Arrays.stream(line.trim().split(" ")))
+        .map(String::toLowerCase)
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+  }
+
+  public static void writeFile(String answerFile, Map<String, Long> wordCount) throws IOException {
+    try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(answerFile))) {
+      for (Map.Entry<String, Long> entry : wordCount.entrySet()) {
+        String word = entry.getKey();
+        long wordNumber = entry.getValue();
+        String line = word + "=" + wordNumber;
+        writer.write(line);
+        writer.newLine();
         CompletableFuture.runAsync(() -> {
           try {
-            writeWordToFile(currentWord, currentWordNumber);
+            writeWordToFile(word, wordNumber);
           } catch (IOException e) {
             throw new MyException("IOException occurred");
           }
         });
-      });
-    } catch (IOException e) {
-      throw new FileNotFoundException("Error occurred reading " + dataFile + " or " + answerFile);
+      }
     }
   }
 
-  public static void writeWordToFile(String word, Integer wordNumber) throws IOException {
+  public static void writeWordToFile(String word, long wordNumber) throws IOException {
     if (Files.exists(Path.of(word + ".txt"))) {
       writeWordToExistingFile(word, wordNumber);
     } else {
@@ -58,7 +81,7 @@ public class Task5 {
     }
   }
 
-  public static void writeWordToNonExistingFile(String word, Integer wordNumber) throws FileNotFoundException {
+  public static void writeWordToNonExistingFile(String word, long wordNumber) throws FileNotFoundException {
     try (FileWriter wordFile = new FileWriter(word + ".txt", true)) {
       writeWordToExistingFile(word, wordNumber);
     } catch (IOException ex) {
@@ -66,7 +89,7 @@ public class Task5 {
     }
   }
 
-  public static void writeWordToExistingFile(String word, Integer wordNum) throws IOException {
+  public static void writeWordToExistingFile(String word, long wordNum) throws IOException {
     try (BufferedWriter wordFile = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((word + ".txt"))))) {
       for (int i = 0; i < wordNum; i++) {
         wordFile.write(word + "\n");

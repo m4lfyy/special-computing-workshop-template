@@ -51,7 +51,8 @@ class Task5Test {
   @Test
   void countTest() throws IOException {
     int count = 0;
-    Task5.countWords("datafileTest.txt", "countsTest.txt");
+    String[] args = {"datafileTest.txt", "countsTest.txt"};
+    Task5.main(args);
     String[] words = {"я", "играю", "в", "баскетбол"};
     for (String current : words) {
       Path path = Path.of(current + ".txt");
