@@ -3,6 +3,10 @@ package ru.spbu.apcyb.svp.tasks;
 import java.io.*;
 import java.nio.file.Path;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 
@@ -43,27 +47,21 @@ public class Task4 {
     logger.info(result);
   }
 
-  public static void multiThreadComputation(String fileWriterName, String inputFileName, int numberOfLines, int numberOfThreads) throws IOException, InterruptedException, ExecutionException {
+  public static void multiThreadComputation(String fileWriterName, String inputFileName, int numberOfThreads) throws IOException, InterruptedException, ExecutionException {
     long start = System.currentTimeMillis();
     ExecutorService executorService = null;
-    ConcurrentHashMap<Integer, CompletableFuture<Double>> results = new ConcurrentHashMap<>();
+    List<Future<Double>> futures = new ArrayList<>();
     try {
       executorService = Executors.newFixedThreadPool(numberOfThreads);
-      try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Path.of(inputFileName).toFile()))) {
-        for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
-          for (int j = 0; j < numberOfThreads; j++) {
-            String currentLine = bufferedReader.readLine();
-            results.put(j + i * numberOfThreads, CompletableFuture.supplyAsync(() -> Math.tan(Double.parseDouble(currentLine)), executorService));
-          }
+      try (Scanner sc = new Scanner(new FileReader(inputFileName)).useLocale(Locale.US);
+          FileWriter fileWriter = new FileWriter(fileWriterName)) {
+
+        while (sc.hasNextDouble()) {
+          double x = sc.nextDouble();
+          futures.add(executorService.submit(() -> Math.tan(x)));
         }
-      } catch (FileNotFoundException e) {
-        throw new FileNotFoundException("File not found!");
-      } catch (IOException e) {
-        throw new IOException("IOException occurred!");
-      }
-      try (FileWriter fileWriter = new FileWriter(fileWriterName, false)) {
-        for (var s : results.values()) {
-          fileWriter.write(s.get() + "\n");
+        for (var future : futures) {
+          fileWriter.write(future.get() + System.lineSeparator());
         }
       }
     } finally {
@@ -84,6 +82,6 @@ public class Task4 {
       singleThreadComputation(singleThreadFileWriter, inputFileName, 10000);
     }
     String multiThreadFileWriterName = "multiThreadRes.txt";
-    multiThreadComputation(multiThreadFileWriterName, inputFileName, 10000, 10);
+    multiThreadComputation(multiThreadFileWriterName, inputFileName, 10);
   }
 }

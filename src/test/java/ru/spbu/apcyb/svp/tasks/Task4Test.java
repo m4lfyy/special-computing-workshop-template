@@ -62,7 +62,7 @@ class Task4Test {
       }
     }
 
-    Task4.multiThreadComputation(multiThreadFileWriterName, "data.txt", numberOfLinesToRead, numberOfThreads);
+    Task4.multiThreadComputation(multiThreadFileWriterName, "data.txt", numberOfThreads);
     int viewedNumbers = 0;
     try (BufferedReader multiThreadResTestReader = new BufferedReader(new FileReader(filePath2.toFile()))) {
       while ((resultLine = multiThreadResTestReader.readLine()) != null) {
